@@ -11,7 +11,7 @@ const initialState = {
   signalisatiesHasErrors: false,
   signalisaties: undefined,
 
-  locatiesLoading: false,
+  locatiesLoading: true,
   locatiesHasErrors: false,
   locaties: undefined
 
@@ -72,26 +72,17 @@ export const setSignalisatiesAsync = () => {
       const resp = await Axios.get("https://cors-anywhere.herokuapp.com/" + "http://rss.opendata.belfla.be/rss/verkeersdata", {
         "Content-Type": "application/xml; charset=utf-8"
       });
-      //Script Service
       const info = resp.data;
-      //const parser = new DOMParser()
-      //const xmlDoc = parser.parseFromString(info,"text/xml");
-
-      //console.log(xmlDoc)
       parseString(info,
         (err, result) => {
           if (!err) {
-            //const str = JSON.stringify(result)
             console.log(result)
+            //dispatch(setLocatiesAsync())
             dispatch(getSignalisatiesSucces(result))
           }
-        })
-      //console.log(info)
-      //await dispatch(setSubsctriptionToScriptService(ss));
-      //dispatch(getSignalisatiesSucces(xmlDoc.getElementsByTagName("rssverkeersdata")[0]));
+        })       
 
     } catch (err) {
-      //Hier err doorgeven naar failure fucntie?
       //dispatch(getScriptServiceFailure());  
     }
   };
