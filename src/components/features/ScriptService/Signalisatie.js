@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 
 import {
   selectSignalisatie,
-  
-  setScriptServiceAsync
+  setLocatiesAsync,
+  setSignalisatiesAsync
 } from "./SignalisatieSlice";
 
 const ScriptService = ({ scriptService, ...props }) => {
@@ -17,12 +17,13 @@ const ScriptService = ({ scriptService, ...props }) => {
   } = useSelector(selectSignalisatie);
   //De opstart van de app gebeurd hier Kan best in ScripEditor geplaatst worden
   useEffect(() => {
-    dispatch(setScriptServiceAsync())
+    dispatch(setLocatiesAsync())
+    dispatch(setSignalisatiesAsync())
   }, []);
 
   return (
     <div>
-      {signalisatiesloading?<CircularProgress></CircularProgress>:
+      {signalisatiesloading? <CircularProgress></CircularProgress>:
       signalisaties.rssverkeersdata.rss_bord.map(item=><p>{item.abbameldanaam}</p>)}
     </div>
   )
