@@ -7,33 +7,33 @@ import {parseString} from 'xml2js'
 const initialState = {
   //scriptServices: [],
 
-  signalisatiesloading: false,
+  signalisatiesloading: true,
   signalisatiesHasErrors: false,
   signalisaties: undefined,
 
 };
 
 export const slice = createSlice({
-  name: "scriptService",
+  name: "signalisatie",
   initialState,
   reducers: {
    
     getSignalisaties: (state) => {
       //state.scriptService = action.payload;
-      state.scriptServiceloading = true;
+      state.signalisatiesloading = true;
     },
     getSignalisatiesSucces: (state, data) => {
-      state.scriptService = data.payload;
+      state.signalisaties = data.payload;
       //Beginstate van de monitor opbouwen
       /* data.payload.Channels.forEach(channel => {
         data.currensState.Events.push({channel:{}})
       }); */
-      state.scriptServiceloading = false;
-      state.scriptServiceHasErrors = false;
+      state.signalisatiesloading = false;
+      state.signalisatiesHasErrors = false;
     },
     getSignalisatiesFailure: (state) => {
       //state.scriptServiceloading = false;
-      state.scriptServiceHasErrors = true;
+      state.signalisatiesHasErrors = true;
     },    
   },
 });
@@ -49,29 +49,37 @@ export const {
 export const setScriptServiceAsync = (GUID) => {
   return async (dispatch) => {
     try {
-      await dispatch(getSignalisaties());
-      const resp = await Axios.get("https://cors-anywhere.herokuapp.com/"+"http://rss.opendata.belfla.be/rss/verkeersdata");
+      dispatch(getSignalisaties());
+      const resp = await Axios.get("https://cors-anywhere.herokuapp.com/"+"http://rss.opendata.belfla.be/rss/verkeersdata",{
+        "Content-Type": "application/xml; charset=utf-8"
+      });
       //Script Service
       const info = resp.data;
+      //const parser = new DOMParser()
+      //const xmlDoc = parser.parseFromString(info,"text/xml");
+
+      //console.log(xmlDoc)
       parseString(info,
         (err,result)=>{
           if(!err){
             //const str = JSON.stringify(result)
             console.log(result)
+            dispatch(getSignalisatiesSucces(result))
           }
         })
       //console.log(info)
       //await dispatch(setSubsctriptionToScriptService(ss));
-      //dispatch(getScriptServiceSucces(ss));
+      //dispatch(getSignalisatiesSucces(xmlDoc.getElementsByTagName("rssverkeersdata")[0]));
+      
     } catch (err) {
       //Hier err doorgeven naar failure fucntie?
-      //dispatch(getScriptServiceFailure());
+      //dispatch(getScriptServiceFailure());  
     }
   };
 };
 
 //Selectors
-export const selectSignalisaties = (state) => state.signalisaties;
+export const selectSignalisatie = (state) => state.signalisatie;
 //export const selectCurrentStateScriptService = (state) =>
 //  state.scriptService.currentState;
 export const selectChannels = (state) => state.scriptService.channels;
