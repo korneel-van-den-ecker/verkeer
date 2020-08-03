@@ -1,26 +1,28 @@
 import React from 'react'
-import {  Marker, Popup} from 'react-leaflet'
+import { Marker, Popup } from 'react-leaflet'
 
 
-const Markers = ({signalisaties, locaties}) => {
+const Markers = ({ signalisaties, locaties }) => {
 
-    const constructMarkers = (locatie_bord,bord) =>{
+    const constructMarkers = (locatie_bord, bord) => {
         const markers = []
-        
+
         signalisaties.rssverkeersdata.rss_bord.map(
-            bord =>{
+            bord => {
                 const breedtegraad = (locaties.rssconfiguratie.rss_bord.find(
-                    locatie_bord => locatie_bord.$.unieke_id === bord.$.unieke_id).breedtegraad_EPSG_4326)[0].replace(',','.');
+                    locatie_bord => locatie_bord.$.unieke_id === bord.$.unieke_id).breedtegraad_EPSG_4326)[0].replace(',', '.');
                 const lengtegraad = (locaties.rssconfiguratie.rss_bord.find(
-                    locatie_bord => locatie_bord.$.unieke_id === bord.$.unieke_id).lengtegraad_EPSG_4326)[0].replace(',','.');    
-                const marker =  <Marker position={[
+                    locatie_bord => locatie_bord.$.unieke_id === bord.$.unieke_id).lengtegraad_EPSG_4326)[0].replace(',', '.');
+                const marker = <Marker position={[
                     parseFloat(breedtegraad),
                     parseFloat(lengtegraad)
-                    ]} 
-                        >                    
+                ]}
+                >
+                <Popup><h1>{locaties.rssconfiguratie.rss_bord.find(
+                    locatie_bord => locatie_bord.$.unieke_id === bord.$.unieke_id).abbameldanaam}</h1></Popup>
                 </Marker>
-            markers.push(marker)    
-            }            
+                markers.push(marker)
+            }
         )
         return markers;
     }
@@ -35,7 +37,7 @@ const Markers = ({signalisaties, locaties}) => {
                         locatie_bord => locatie_bord.$.unieke_id === bord.$.unieke_id).lengtegraad_EPSG_4326]} 
                         >                    
                 </Marker>
-        ) */) 
+        ) */)
 }
 
 export default Markers

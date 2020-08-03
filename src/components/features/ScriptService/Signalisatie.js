@@ -20,19 +20,22 @@ const ScriptService = ({ scriptService, ...props }) => {
   } = useSelector(selectSignalisatie);
   //De opstart van de app gebeurd hier Kan best in ScripEditor geplaatst worden
   useEffect(() => {
-    dispatch(setSignalisatiesAsync())
-    dispatch(setLocatiesAsync())
+    const timer = setInterval(() => {
+      dispatch(setSignalisatiesAsync());
+      dispatch(setLocatiesAsync())
+    }, 5000)
+    return () => clearTimeout(timer);
   }, []);
 
-  const ConstructMarkers = () =>{
+  const ConstructMarkers = () => {
 
   }
 
   return (
     <div>
-      
-      {(signalisatiesloading || locatiesLoading) ? <CircularProgress></CircularProgress> :
-      <MapLeaf signalisaties={signalisaties} locaties={locaties}></MapLeaf>
+
+      {(signalisaties === undefined || locaties === undefined) ? <CircularProgress></CircularProgress> :
+        <MapLeaf signalisaties={signalisaties} locaties={locaties}></MapLeaf>
         /* signalisaties.rssverkeersdata.rss_bord.map(
           bord =>
             <p key={bord.abbameldanaam}>
