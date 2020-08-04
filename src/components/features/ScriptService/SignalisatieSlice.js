@@ -69,7 +69,7 @@ export const setSignalisatiesAsync = () => {
   return async (dispatch) => {
     try {
       dispatch(getSignalisaties());
-      const resp = await Axios.get("https://cors-anywhere.herokuapp.com/" + "http://rss.opendata.belfla.be/rss/verkeersdata", {
+      const resp = await Axios.get("rss/verkeersdata", {
         "Content-Type": "application/xml; charset=utf-8"
       });
       const info = resp.data;
@@ -92,7 +92,7 @@ export const setLocatiesAsync = (GUID) => {
   return async (dispatch) => {
     try {
       dispatch(getLocaties());
-      const resp = await Axios.get("https://cors-anywhere.herokuapp.com/" + "http://rss.opendata.belfla.be/rss/configuratie/xml", {
+      const resp = await Axios.get("rss/configuratie/xml", {
         "Content-Type": "application/xml; charset=utf-8"
       });
       //Script Service

@@ -9,6 +9,7 @@ import {
   setLocatiesAsync,
   setSignalisatiesAsync
 } from "./SignalisatieSlice";
+import Boodschap from "../Booschap/BoodschapAfbeelding";
 
 const ScriptService = ({ scriptService, ...props }) => {
   const dispatch = useDispatch()
@@ -35,7 +36,7 @@ const ScriptService = ({ scriptService, ...props }) => {
 
   return (
     <div>
-
+      <Boodschap></Boodschap>
       {(signalisaties === undefined || locaties === undefined) ? <CircularProgress></CircularProgress> :
         <MapLeaf signalisaties={signalisaties} locaties={locaties}></MapLeaf>
         /* signalisaties.rssverkeersdata.rss_bord.map(
