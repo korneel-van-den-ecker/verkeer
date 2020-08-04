@@ -20,11 +20,13 @@ const ScriptService = ({ scriptService, ...props }) => {
   } = useSelector(selectSignalisatie);
   //De opstart van de app gebeurd hier Kan best in ScripEditor geplaatst worden
   useEffect(() => {
-    const timer = setInterval(() => {
+    /* const timer = setInterval(() => {
       dispatch(setSignalisatiesAsync());
       dispatch(setLocatiesAsync())
-    }, 5000)
-    return () => clearTimeout(timer);
+    }, 500000)
+    return () => clearTimeout(timer); */
+    dispatch(setSignalisatiesAsync());
+      dispatch(setLocatiesAsync())
   }, []);
 
   const ConstructMarkers = () => {

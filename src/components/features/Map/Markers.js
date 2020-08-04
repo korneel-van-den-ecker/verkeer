@@ -1,10 +1,14 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Marker, Popup } from 'react-leaflet'
 
 
 const Markers = ({ signalisaties, locaties }) => {
 
-    const constructMarkers = (locatie_bord, bord) => {
+    useEffect(()=>{
+        constructMarkers()
+    },[signalisaties,locaties])
+
+    const constructMarkers = () => {
         const markers = []
 
         signalisaties.rssverkeersdata.rss_bord.map(
